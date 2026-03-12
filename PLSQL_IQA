@@ -2,6 +2,7 @@
 2. What do you understand by PL/SQL Table?
 3. Explain the basic structure followed in PL/SQL.
 4. What is a PL/SQL cursor?
+5. What is the use of WHERE CURRENT OF in cursors?
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -171,6 +172,19 @@ END;
 Explanation:
 Cursor emp_cursor selects employee names.
 OPEN starts the cursor.
+
+5. What is the use of WHERE CURRENT OF in cursors?
+---------------------------------------------------
+WHERE CURRENT OF is used with explicit cursors to update or delete the row that was last fetched by the cursor.
+When a cursor fetches rows one by one, WHERE CURRENT OF helps identify the current row that the cursor is pointing to, so we can update or delete that row easily.
+It is usually used with SELECT ... FOR UPDATE.
+1. Syntax for Update
+UPDATE table_name
+SET column_name = value
+WHERE CURRENT OF cursor_name;
+2. Syntax for Delete
+DELETE FROM table_name
+WHERE CURRENT OF cursor_name;
 FETCH retrieves one row at a time.
 EXIT WHEN %NOTFOUND stops when no rows remain.
 CLOSE releases the cursor.
