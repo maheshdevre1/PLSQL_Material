@@ -1,1 +1,125 @@
+1. What are the features of PL/SQL?
+2. What do you understand by PL/SQL Table?
+3. Explain the basic structure followed in PL/SQL.
 
+1. What are the features of PL/SQL?
+-----------------------------------
+PL/SQL (Procedural Language/SQL) is an extension of SQL used in Oracle databases. It allows developers to write programs that combine SQL queries with programming features like conditions, loops, and error handling.
+Features of PL/SQL:
+1. Procedural Language Support
+PL/SQL supports programming features like decision making (IF statements) and loops (FOR, WHILE). This makes it similar to other programming languages.
+Example:
+DECLARE
+   num NUMBER := 10;
+BEGIN
+   IF num > 5 THEN
+      DBMS_OUTPUT.PUT_LINE('Number is greater than 5');
+   END IF;
+END;
+/
+2. Executes Multiple SQL Queries in One Block
+PL/SQL allows multiple SQL statements to be written and executed together in a single block.
+Example:
+BEGIN
+   INSERT INTO employees(id, name) VALUES (101, 'John');
+   UPDATE employees SET name = 'Johnny' WHERE id = 101;
+END;
+/
+3. Exception Handling (Error Handling)
+PL/SQL can handle errors using an EXCEPTION block, so the program does not stop unexpectedly.
+Example:
+DECLARE
+   num NUMBER;
+BEGIN
+   num := 10/0;
+EXCEPTION
+   WHEN ZERO_DIVIDE THEN
+      DBMS_OUTPUT.PUT_LINE('Cannot divide by zero');
+END;
+/
+4. Reusable Program Units
+PL/SQL allows creating reusable database objects such as:
+Procedures
+Functions
+Packages
+Triggers
+Types
+These are stored in the database and can be used by many applications.
+Example (Procedure):
+CREATE OR REPLACE PROCEDURE greet_user
+AS
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Hello User');
+END;
+/
+5. Portability
+Applications written in PL/SQL can run on any system where the Oracle database is installed, so they are portable across different hardware and operating systems.
+2. What do you understand by PL/SQL Table?
+-------------------------------------------
+A PL/SQL Table (also called an Index-by Table or Associative Array) is a collection of elements of the same data type.
+Each element is stored with an index (position number), which is used to access the value.
+It works similar to an array in programming languages, where values are stored and accessed using an index.
+Example:
+DECLARE
+    TYPE Vehicle_SSN_tabtype IS TABLE OF INTEGER INDEX BY BINARY_INTEGER;
+    Vehicle_SSN_table Vehicle_SSN_tabtype;
+BEGIN
+    Vehicle_SSN_table(1) := 101;
+    Vehicle_SSN_table(2) := 102;
+    DBMS_OUTPUT.PUT_LINE(Vehicle_SSN_table(1));
+END;
+/
+Explanation of the Example:
+TYPE Vehicle_SSN_tabtype IS TABLE OF INTEGER INDEX BY BINARY_INTEGER;
+This line creates a user-defined table type that stores integer values and uses numbers as indexes.
+Vehicle_SSN_table Vehicle_SSN_tabtype;
+This declares a PL/SQL table variable based on the type created.
+Vehicle_SSN_table(1) := 101;
+Stores value 101 at index 1.
+Vehicle_SSN_table(2) := 102;
+Stores value 102 at index 2.
+DBMS_OUTPUT.PUT_LINE(Vehicle_SSN_table(1));
+Prints the value stored at index 1.
+3. Explain the basic structure followed in PL/SQL.
+-----------------------------------------------------
+In PL/SQL, the basic unit of a program is called a Block.
+Every PL/SQL program is written inside a block structure.
+A PL/SQL block has three main parts:
+1. Declaration Section
+This section is used to declare variables, constants, cursors, or types that will be used in the program.
+This part starts with the keyword DECLARE.
+2. Execution Section
+This section contains the actual logic of the program such as SQL statements, calculations, loops, or conditions.
+This part starts with the keyword BEGIN and ends with END.
+It is the mandatory part of a PL/SQL block.
+3. Exception Handling Section
+This section handles errors that occur during program execution.
+It starts with the keyword EXCEPTION.
+Basic Structure Syntax:
+DECLARE
+   -- variable declaration
+BEGIN
+   -- executable statements
+EXCEPTION
+   -- error handling statements
+END;
+/
+Example:
+DECLARE
+   num1 NUMBER := 10;
+   num2 NUMBER := 0;
+   result NUMBER;
+BEGIN
+   result := num1 / num2;
+   DBMS_OUTPUT.PUT_LINE('Result: ' || result);
+EXCEPTION
+   WHEN ZERO_DIVIDE THEN
+      DBMS_OUTPUT.PUT_LINE('Error: Division by zero');
+END;
+/
+Explanation:
+DECLARE → Variables num1, num2, and result are declared.
+BEGIN → Program logic is executed (num1 / num2).
+EXCEPTION → If division by zero occurs, it prints an error message.
+✅ In simple words:
+A PL/SQL program is written in blocks, and each block can contain variable declarations, executable statements, and error handling.
