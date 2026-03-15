@@ -3,6 +3,9 @@
 3. Explain the basic structure followed in PL/SQL.
 4. What is a PL/SQL cursor?
 5. What is the use of WHERE CURRENT OF in cursors?
+6. How can a name be assigned to an unnamed PL/SQL Exception Block?
+7. What is a PL/SQL Trigger? Give some examples of when "Triggers" might be useful.
+8. When does a DECLARE block have to be present?
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -196,3 +199,129 @@ EXIT WHEN %NOTFOUND stops when no rows remain.
 CLOSE releases the cursor.
 ✅ In simple words:
 A cursor is a pointer used to handle the rows returned by a SQL query, especially when the query returns multiple rows.
+
+6. How can a name be assigned to an unnamed PL/SQL Exception Block?
+-------------------------------------------------------------------
+In PL/SQL, some errors have error numbers but no predefined names.
+To give a name to such errors, we use the PRAGMA EXCEPTION_INIT directive.
+PRAGMA EXCEPTION_INIT connects a user-defined exception name with a specific Oracle error number.
+After assigning the name, we can handle that error easily in the EXCEPTION block.
+Syntax
+DECLARE
+   exception_name EXCEPTION;
+   PRAGMA EXCEPTION_INIT(exception_name, error_code);
+BEGIN
+   -- code
+EXCEPTION
+   WHEN exception_name THEN
+      -- exception handling code
+END;
+/
+Example
+Example: Handling the duplicate value error (ORA-00001).
+DECLARE
+   duplicate_error EXCEPTION;
+   PRAGMA EXCEPTION_INIT(duplicate_error, -1);
+BEGIN
+   INSERT INTO employees(emp_id, emp_name, salary)
+   VALUES (1, 'Rahul', 30000);
+EXCEPTION
+   WHEN duplicate_error THEN
+      DBMS_OUTPUT.PUT_LINE('Duplicate value error occurred');
+END;
+/
+Explanation
+duplicate_error EXCEPTION;
+Creates a user-defined exception name.
+PRAGMA EXCEPTION_INIT(duplicate_error, -1);
+Links the name with Oracle error number -1 (duplicate value).
+If the error occurs, the EXCEPTION block handles it and prints the message.
+✅ In simple words:
+PRAGMA EXCEPTION_INIT is used to assign a name to an Oracle error number so that it can be handled easily in the EXCEPTION block.
+7. What is a PL/SQL Trigger? Give some examples of when "Triggers" might be useful.
+----------------------------------------------------------------------------------------
+A PL/SQL Trigger is a stored program in the database that automatically executes when a specific event occurs on a table or view.
+Events that can fire a trigger are:
+INSERT (when a record is inserted)
+UPDATE (when a record is updated)
+DELETE (when a record is deleted)
+A trigger runs automatically when the event happens. It cannot be executed manually.
+Basic Syntax of Trigger
+CREATE OR REPLACE TRIGGER trigger_name
+BEFORE INSERT OR UPDATE OR DELETE
+ON table_name
+FOR EACH ROW
+BEGIN
+   -- trigger action
+END;
+/
+Example 1: Trigger for Insert
+This trigger prints a message when a new employee is inserted.
+CREATE OR REPLACE TRIGGER emp_insert_trigger
+BEFORE INSERT
+ON employees
+FOR EACH ROW
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('New employee inserted');
+END;
+/
+Test Query
+INSERT INTO employees VALUES (6,'Ravi',42000,10);
+Example 2: Trigger to Prevent Negative Salary
+This trigger stops inserting a salary less than 0.
+CREATE OR REPLACE TRIGGER salary_check_trigger
+BEFORE INSERT OR UPDATE
+ON employees
+FOR EACH ROW
+BEGIN
+   IF :NEW.salary < 0 THEN
+      RAISE_APPLICATION_ERROR(-20001,'Salary cannot be negative');
+   END IF;
+END;
+/
+Examples of When Triggers Are Useful
+1. Maintaining Data Integrity
+Triggers ensure that invalid data cannot be inserted or updated.
+2. Enforcing Business Rules
+For example, salary cannot be negative or age must be above 18.
+3. Auditing Table Changes
+Triggers can record who changed data and when.
+4. Automatic Actions After Data Change
+For example, when a new order is inserted, automatically update stock quantity.
+5. Prevent Fraudulent Transactions
+Triggers can block unauthorized updates or deletions.
+✅ In simple words:
+A Trigger is an automatic program in the database that runs when data is inserted, updated, or deleted from a table.
+8. When does a DECLARE block have to be present?
+----------------------------------------------------
+In PL/SQL, the DECLARE block is used to define variables, constants, cursors, or exceptions before the program execution starts.
+The DECLARE section is required only when we need to declare variables or other objects in the program.
+If no variables or objects are needed, the DECLARE section can be omitted.
+The DECLARE block is mainly used in anonymous PL/SQL blocks (stand-alone blocks that are not stored in the database).
+Basic Structure
+DECLARE
+   -- variable declaration
+BEGIN
+   -- executable statements
+END;
+/
+Example with DECLARE block
+DECLARE
+   num NUMBER := 10;
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Value of number: ' || num);
+END;
+/
+Explanation
+DECLARE → variable num is declared.
+BEGIN → program logic executes.
+DBMS_OUTPUT.PUT_LINE → prints the value.
+Example without DECLARE block
+If no variables are needed, we can write:
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Hello PL/SQL');
+END;
+/
+✅ In simple words:
+The DECLARE block is used when we need to define variables or other objects before executing the PL/SQL program. 
+If nothing needs to be declared, the DECLARE section is not required.
