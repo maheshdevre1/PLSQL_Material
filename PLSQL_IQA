@@ -22,6 +22,11 @@
 23. List the types of exceptions in PL/SQL.
 24. What types of commands PL/SQL does not support?
 25. Name some PL/SQL exceptions.
+26. What is a PL/SQL package?
+27. Write a PL/SQL program to find a given string is palindrome.
+28. What command will you use to delete a package?
+29. How will you execute a stored procedure?
+30. Explain the IN, OUT and IN OUT parameters.
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -606,3 +611,112 @@ EXCEPTION
       DBMS_OUTPUT.PUT_LINE('Cannot divide by zero');
 END;
 /
+
+26. What is a PL/SQL package?
+------------------------------
+A PL/SQL Package is a database object that groups related procedures, functions, variables, and cursors together.
+It helps organize large PL/SQL programs and makes code reusable and easier to maintain.
+A package has two parts.
+1. Package Specification
+Contains declarations of procedures, functions, variables, and cursors.
+It acts like an interface.
+2. Package Body
+Contains the actual implementation of procedures and functions declared in the specification.
+Example
+Package Specification
+CREATE OR REPLACE PACKAGE emp_pkg AS
+   PROCEDURE show_message;
+END emp_pkg;
+/
+Package Body
+CREATE OR REPLACE PACKAGE BODY emp_pkg AS
+   PROCEDURE show_message IS
+   BEGIN
+      DBMS_OUTPUT.PUT_LINE('Hello from package');
+   END;
+END emp_pkg;
+/
+27. Write a PL/SQL program to find a given string is palindrome.
+-----------------------------------------------------------------
+A palindrome is a string that reads the same forward and backward.
+Example:
+madam, level, radar
+PL/SQL Program
+DECLARE
+   str VARCHAR2(20) := 'madam';
+   reverse_string VARCHAR2(20) := '';
+BEGIN
+   FOR i IN REVERSE 1..LENGTH(str) LOOP
+      reverse_string := reverse_string || SUBSTR(str,i,1);
+   END LOOP;
+   IF str = reverse_string THEN
+      DBMS_OUTPUT.PUT_LINE(str || ' is palindrome');
+   ELSE
+      DBMS_OUTPUT.PUT_LINE(str || ' is not palindrome');
+   END IF;
+END;
+/
+Output
+madam is palindrome
+28. What command will you use to delete a package?
+--------------------------------------------------
+We use the DROP PACKAGE command to delete a package.
+Syntax
+DROP PACKAGE package_name;
+Example
+DROP PACKAGE emp_pkg;
+If you want to delete only the package body, use:
+DROP PACKAGE BODY emp_pkg;
+29. How will you execute a stored procedure?
+-----------------------------------------------
+A stored procedure can be executed using EXECUTE or EXEC command.
+Syntax
+EXEC procedure_name;
+or
+EXECUTE procedure_name;
+Example
+EXEC show_message;
+Another method:
+BEGIN
+   show_message;
+END;
+/
+30. Explain the IN, OUT and IN OUT parameters.
+----------------------------------------------
+PL/SQL procedures use three types of parameters.
+1. IN Parameter
+Used to pass values to the procedure
+Default parameter type
+Acts like a constant (cannot be modified)
+Example
+PROCEDURE show_name(name IN VARCHAR2)
+2. OUT Parameter
+Used to return values from the procedure
+Value is assigned inside the procedure
+Example
+PROCEDURE get_salary(salary OUT NUMBER)
+3. IN OUT Parameter
+Used to pass a value to the procedure and return the updated value
+Example
+PROCEDURE update_salary(salary IN OUT NUMBER)
+Simple Example
+CREATE OR REPLACE PROCEDURE add_num(
+   a IN NUMBER,
+   b IN NUMBER,
+   result OUT NUMBER
+)
+IS
+BEGIN
+   result := a + b;
+END;
+/
+Call the procedure
+DECLARE
+   res NUMBER;
+BEGIN
+   add_num(10,20,res);
+   DBMS_OUTPUT.PUT_LINE(res);
+END;
+/
+Output
+30
