@@ -7,6 +7,16 @@
 7. What is a PL/SQL Trigger? Give some examples of when "Triggers" might be useful.
 8. When does a DECLARE block have to be present?
 9. How should comments be written in PL/SQL code?
+10. What is the purpose of the WHEN condition in the trigger?
+11. What are the Differences between SQL and PL/SQL?
+12. Why are SYSDATE and USER keywords used?
+13. What is the Difference between implicit cursor and explicit cursor?
+14. Tell the importance of %TYPE and %ROWTYPE data types in PL/SQL.
+15. What are the differences between ROLLBACK and ROLLBACK TO statements in PL/SQL?
+16. What are the uses of SYS.ALL_DEPENDENCIES?
+17. What virtual tables exist during execution of a trigger?
+19. What is purpose of COMMIT, ROLLBACK and SAVEPOINT?
+20. How can we debug our PL/SQL code?
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -340,3 +350,136 @@ BEGIN
 /* Hi Geeks,
 This is Multiple line comments.*/
 END;
+
+10. What is the purpose of the WHEN condition in the trigger?
+--------------------------------------------------------------
+The WHEN condition is used in row-level triggers to specify when the trigger should execute.
+The trigger will run only if the condition is TRUE.
+Example
+CREATE OR REPLACE TRIGGER salary_check
+BEFORE UPDATE ON employees
+FOR EACH ROW
+WHEN (NEW.salary < 0)
+BEGIN
+   RAISE_APPLICATION_ERROR(-20001,'Salary cannot be negative');
+END;
+/
+✅ The trigger runs only if salary becomes negative.
+11. What are the Differences between SQL and PL/SQL?
+----------------------------------------------------
+SQL==>	PL/SQL
+SQL is used to manage databases. ==>	PL/SQL is a programming language for Oracle databases.
+Executes one statement at a time. ==>	Executes multiple statements in a block.
+SQL is declarative language.	==> PL/SQL is procedural language.
+No variables are used. ==>	Variables and data types are used.
+Used for DDL and DML operations. ==>	Used to create procedures, functions, triggers, packages.
+SQL cannot contain PL/SQL.	==>PL/SQL can contain SQL statements.
+12. Why are SYSDATE and USER keywords used?
+-------------------------------------------
+SYSDATE
+SYSDATE returns the current date and time of the database server.
+SELECT SYSDATE FROM dual;
+Example Output:
+15-MAR-26 02:30:00
+USER
+USER returns the current logged-in database username.
+SELECT USER FROM dual;
+Example Output
+HR
+13. What is the Difference between implicit cursor and explicit cursor?
+-------------------------------------------------------------------------
+Implicit Cursor	Explicit Cursor
+Automatically created by Oracle	Created by programmer
+Used for single row queries	Used for multiple rows
+Less control	Full control
+Used with INSERT, UPDATE, DELETE, SELECT INTO	Used with SELECT returning multiple rows
+Example implicit cursor attribute:
+SQL%ROWCOUNT
+SQL%FOUND
+SQL%NOTFOUND
+Example explicit cursor attribute:
+cursor_name%ROWCOUNT
+cursor_name%FOUND
+cursor_name%NOTFOUND
+14. Tell the importance of %TYPE and %ROWTYPE data types in PL/SQL.
+-------------------------------------------------------------------
+%TYPE
+%TYPE is used to declare a variable with the same datatype as a table column.
+Example
+DECLARE
+   v_salary employees.salary%TYPE;
+BEGIN
+   NULL;
+END;
+/
+Here v_salary gets the same datatype as salary column.
+%ROWTYPE
+%ROWTYPE is used to store an entire row of a table.
+Example
+DECLARE
+   emp_rec employees%ROWTYPE;
+BEGIN
+   SELECT * INTO emp_rec
+   FROM employees
+   WHERE emp_id = 1;
+END;
+/
+15. What are the differences between ROLLBACK and ROLLBACK TO statements in PL/SQL?
+-------------------------------------------------------------------------------------
+ROLLBACK	ROLLBACK TO
+Undo all changes in transaction	Undo changes up to a SAVEPOINT
+Transaction ends	Transaction continues
+Example
+SAVEPOINT sp1;
+UPDATE employees SET salary=50000 WHERE emp_id=1;
+ROLLBACK TO sp1;
+16. What are the uses of SYS.ALL_DEPENDENCIES?
+-----------------------------------------------
+SYS.ALL_DEPENDENCIES shows dependencies between database objects.
+It displays relationships between:
+Procedures
+Packages
+Triggers
+Functions
+Example
+SELECT * FROM SYS.ALL_DEPENDENCIES;
+17. What virtual tables exist during execution of a trigger?
+-------------------------------------------------------------------
+Two virtual tables exist in triggers:
+OLD
+Contains old values before update or delete.
+NEW
+Contains new values after insert or update.
+Operation	OLD	NEW
+INSERT	❌	✔
+UPDATE	✔	✔
+DELETE	✔	❌
+Example
+:OLD.salary
+:NEW.salary
+18. Difference between cursors declared in procedures and in package specifications?
+Procedure Cursor	Package Cursor
+Local to procedure	Global
+Cannot be used outside procedure	Can be used by all procedures in package
+19. What is purpose of COMMIT, ROLLBACK and SAVEPOINT?
+-----------------------------------------------------------
+COMMIT
+Saves changes permanently in database.
+COMMIT;
+ROLLBACK
+Undo changes since last commit.
+ROLLBACK;
+SAVEPOINT
+Creates a checkpoint in transaction.
+SAVEPOINT sp1;
+ROLLBACK TO sp1;
+20. How can we debug our PL/SQL code?
+--------------------------------------
+PL/SQL debugging can be done using:
+1️⃣ DBMS_OUTPUT
+DBMS_OUTPUT.PUT_LINE('Debug message');
+Prints output in console.
+2️⃣ DBMS_DEBUG
+Used for advanced debugging and logging.
+✅ Simple answer:
+To debug PL/SQL code we use DBMS_OUTPUT to print messages and DBMS_DEBUG for detailed debugging.
