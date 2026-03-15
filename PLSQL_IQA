@@ -6,6 +6,7 @@
 6. How can a name be assigned to an unnamed PL/SQL Exception Block?
 7. What is a PL/SQL Trigger? Give some examples of when "Triggers" might be useful.
 8. When does a DECLARE block have to be present?
+9. How should comments be written in PL/SQL code?
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -325,3 +326,17 @@ END;
 ✅ In simple words:
 The DECLARE block is used when we need to define variables or other objects before executing the PL/SQL program. 
 If nothing needs to be declared, the DECLARE section is not required.
+
+9. How should comments be written in PL/SQL code?
+-------------------------------------------------
+Two types of comments we can write in PL/SQL code.
+Single Line Comments
+Multiple Line Comments
+Single Line Comments: We can use the -- symbol to comment on a single line in PL/SQL code.
+Multiple Line Comments: We can use the/* lines*/ syntax to comment on multiple lines in PL/SQL code.
+DECLARE
+-- Hi Geeks, This is a single line comment.
+BEGIN
+/* Hi Geeks,
+This is Multiple line comments.*/
+END;
