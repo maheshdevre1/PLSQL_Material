@@ -6,11 +6,12 @@
 
 1. What are the features of PL/SQL?
 -----------------------------------
-PL/SQL (Procedural Language/SQL) is an extension of SQL used in Oracle databases. It allows developers to write programs that combine
-SQL queries with programming features like conditions, loops, and error handling.
+PL/SQL (Procedural Language/SQL) is an extension of SQL used in Oracle databases. It allows developers to write programs that 
+combine SQL queries with programming features like conditions, loops, and error handling.
 Features of PL/SQL:
 1. Procedural Language Support
-PL/SQL supports programming features like decision making (IF statements) and loops (FOR, WHILE). This makes it similar to other programming languages.
+PL/SQL supports programming features like decision making (IF statements) and loops (FOR, WHILE). This makes it similar to other
+programming languages.
 Example:
 DECLARE
    num NUMBER := 10;
@@ -56,7 +57,8 @@ BEGIN
 END;
 /
 5. Portability
-Applications written in PL/SQL can run on any system where the Oracle database is installed, so they are portable across different hardware and operating systems.
+Applications written in PL/SQL can run on any system where the Oracle database is installed, so they are 
+portable across different hardware and operating systems.
 2. What do you understand by PL/SQL Table?
 -------------------------------------------
 A PL/SQL Table (also called an Index-by Table or Associative Array) is a collection of elements of the same data type.
@@ -125,7 +127,8 @@ DECLARE → Variables num1, num2, and result are declared.
 BEGIN → Program logic is executed (num1 / num2).
 EXCEPTION → If division by zero occurs, it prints an error message.
 ✅ In simple words:
-A PL/SQL program is written in blocks, and each block can contain variable declarations, executable statements, and error handling.
+A PL/SQL program is written in blocks, and each block can contain variable declarations, executable 
+statements, and error handling.
 
 4. What is a PL/SQL cursor?
 -----------------------------
@@ -134,7 +137,8 @@ When a SQL statement returns rows from a table, a cursor helps PL/SQL read those
 The group of rows returned by the SQL query is called the active set, and the cursor points to one row at a time.
 PL/SQL provides two types of cursors:
 1. Implicit Cursor
-An Implicit Cursor is automatically created by Oracle when a SQL statement like INSERT, UPDATE, DELETE, or SELECT INTO is executed.
+An Implicit Cursor is automatically created by Oracle when a SQL statement like INSERT, UPDATE, DELETE, 
+or SELECT INTO is executed.
 The programmer does not need to create it manually.
 Example:
 BEGIN
@@ -176,7 +180,9 @@ OPEN starts the cursor.
 5. What is the use of WHERE CURRENT OF in cursors?
 ---------------------------------------------------
 WHERE CURRENT OF is used with explicit cursors to update or delete the row that was last fetched by the cursor.
-When a cursor fetches rows one by one, WHERE CURRENT OF helps identify the current row that the cursor is pointing to, so we can update or delete that row easily.
+When a cursor fetches rows one by one, WHERE CURRENT OF helps identify the current row that the cursor is pointing to, 
+so we can 
+update or delete that row easily.
 It is usually used with SELECT ... FOR UPDATE.
 1. Syntax for Update
 UPDATE table_name
