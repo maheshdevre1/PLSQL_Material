@@ -17,6 +17,11 @@
 17. What virtual tables exist during execution of a trigger?
 19. What is purpose of COMMIT, ROLLBACK and SAVEPOINT?
 20. How can we debug our PL/SQL code?
+21. What is the main difference between a mutating table and a constraining table?
+22. Describe the data types present in PL/SQL.
+23. List the types of exceptions in PL/SQL.
+24. What types of commands PL/SQL does not support?
+25. Name some PL/SQL exceptions.
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -483,3 +488,121 @@ Prints output in console.
 Used for advanced debugging and logging.
 ✅ Simple answer:
 To debug PL/SQL code we use DBMS_OUTPUT to print messages and DBMS_DEBUG for detailed debugging.
+
+21. What is the main difference between a mutating table and a constraining table?
+------------------------------------------------------------------------------------
+Mutating Table
+A mutating table is a table that is currently being modified by a DML operation like:
+INSERT
+UPDATE
+DELETE
+When a trigger tries to read or modify the same table during this operation, Oracle raises a mutating table error.
+Example:
+If a trigger on employees tries to query the same employees table while updating it, the table becomes a mutating table.
+Constraining Table
+A constraining table is a table that is referenced by a foreign key constraint to maintain referential integrity.
+Example
+Departments  ← Parent Table
+Employees    ← Child Table
+Here Departments is a constraining table.
+✅ Simple Difference
+Mutating Table	Constraining Table
+Table currently being modified	Table used for referential integrity
+Used in triggers	Used in foreign key constraints
+22. Describe the data types present in PL/SQL.
+----------------------------------------------
+PL/SQL mainly has two types of data types.
+1. Scalar Data Types
+These store single values.
+Examples:
+NUMBER
+DATE
+CHAR
+VARCHAR2
+BOOLEAN
+LONG
+Example
+DECLARE
+   v_name VARCHAR2(50);
+   v_salary NUMBER;
+BEGIN
+   v_name := 'Rahul';
+   v_salary := 30000;
+END;
+/
+2. Composite Data Types
+These store multiple values together.
+Examples:
+RECORD
+TABLE (collections)
+Example
+DECLARE
+   TYPE emp_record IS RECORD(
+      emp_id NUMBER,
+      emp_name VARCHAR2(50)
+   );
+   emp emp_record;
+BEGIN
+   emp.emp_id := 1;
+   emp.emp_name := 'Rahul';
+END;
+/
+23. List the types of exceptions in PL/SQL.
+----------------------------------------------
+There are two types of exceptions in PL/SQL.
+1. Predefined Exceptions
+These are already defined by Oracle.
+Examples:
+NO_DATA_FOUND
+TOO_MANY_ROWS
+ZERO_DIVIDE
+Example
+BEGIN
+   SELECT salary INTO v_salary
+   FROM employees
+   WHERE emp_id = 100;
+EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('No record found');
+END;
+/
+2. User-defined Exceptions
+These are created by programmers to handle custom errors.
+Example
+DECLARE
+   salary_error EXCEPTION;
+BEGIN
+   IF salary < 0 THEN
+      RAISE salary_error;
+   END IF;
+END;
+/
+24. What types of commands PL/SQL does not support?
+----------------------------------------------------
+PL/SQL does not directly support DDL commands such as:
+CREATE
+ALTER
+DROP
+TRUNCATE
+These commands must be executed using dynamic SQL.
+Example
+EXECUTE IMMEDIATE 'CREATE TABLE test(id NUMBER)';
+25. Name some PL/SQL exceptions.
+----------------------------------
+Some common PL/SQL predefined exceptions are:
+INVALID_NUMBER – Invalid number conversion
+TOO_MANY_ROWS – Query returns more than one row
+ACCESS_INTO_NULL – Attempt to assign value to null object
+CASE_NOT_FOUND – CASE statement without matching condition
+ZERO_DIVIDE – Division by zero
+NO_DATA_FOUND – Query returns no rows
+Example
+DECLARE
+   num NUMBER;
+BEGIN
+   num := 10/0;
+EXCEPTION
+   WHEN ZERO_DIVIDE THEN
+      DBMS_OUTPUT.PUT_LINE('Cannot divide by zero');
+END;
+/
