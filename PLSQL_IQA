@@ -37,6 +37,16 @@
 38. What is the use of index in PL/SQL?
 39. What does the error ORA-03113 mean?
 40. What is a Join?
+41. How can we write or create multiple tables in PL/SQL?
+42. Discuss the concept of RAISE_APPLICATION_ERROR.
+43. What do you know about PRAGMA EXCEPTION_INIT in PL/SQL?
+44. How can you verify whether an UPDATE statement is executed or not in PL/SQL?
+45. What is the use of the || operator?
+46. Is a definition command like CREATE supported in PL/SQL?
+47. Explain a view.
+48. What are the basic parts of triggers?
+49. What are the methods to trace PL/SQL code?
+50. How do you create nested tables in PL/SQL?
 
 1. What are the features of PL/SQL?
 -----------------------------------
@@ -730,3 +740,145 @@ END;
 /
 Output
 30
+
+
+41. How can we write or create multiple tables in PL/SQL?
+-------------------------------------------------------------
+In PL/SQL, Nested Tables are used to store multiple values.
+Nested tables are a type of collection similar to a dynamic array.
+They can store multiple elements of the same datatype, and their size can increase or decrease dynamically.
+Syntax
+TYPE type_name IS TABLE OF element_type;
+table_name type_name;
+Example
+DECLARE
+   TYPE number_table IS TABLE OF NUMBER;
+   numbers number_table := number_table(10,20,30);
+BEGIN
+   FOR i IN 1..numbers.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(numbers(i));
+   END LOOP;
+END;
+/
+42. Discuss the concept of RAISE_APPLICATION_ERROR.
+----------------------------------------------------
+RAISE_APPLICATION_ERROR is used to generate user-defined error messages in PL/SQL.
+It helps the programmer stop program execution and display a custom error message.
+Syntax
+RAISE_APPLICATION_ERROR(error_number, message);
+Error numbers must be between -20000 and -20999.
+Example
+BEGIN
+   IF 100 < 0 THEN
+      RAISE_APPLICATION_ERROR(-20001,'Invalid salary');
+   END IF;
+END;
+/
+43. What do you know about PRAGMA EXCEPTION_INIT in PL/SQL?
+--------------------------------------------------------
+PRAGMA EXCEPTION_INIT is used to associate a user-defined exception with a specific Oracle error number.
+This allows the programmer to handle that error using a custom exception name.
+Syntax
+DECLARE
+   exception_name EXCEPTION;
+   PRAGMA EXCEPTION_INIT(exception_name, error_number);
+Example
+DECLARE
+   dup_error EXCEPTION;
+   PRAGMA EXCEPTION_INIT(dup_error,-1);
+BEGIN
+   NULL;
+EXCEPTION
+   WHEN dup_error THEN
+      DBMS_OUTPUT.PUT_LINE('Duplicate value error');
+END;
+/
+44. How can you verify whether an UPDATE statement is executed or not in PL/SQL?
+--------------------------------------------------------------------------------
+We use the SQL%NOTFOUND attribute.
+If the UPDATE statement does not affect any rows, SQL%NOTFOUND returns TRUE.
+Example
+BEGIN
+   UPDATE employees
+   SET salary = 40000
+   WHERE emp_id = 10;
+   IF SQL%NOTFOUND THEN
+      DBMS_OUTPUT.PUT_LINE('No rows updated');
+   END IF;
+END;
+/
+45. What is the use of the || operator?
+----------------------------------------
+The || operator is used to concatenate (combine) strings.
+Example
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Hello ' || 'World');
+END;
+/
+Output
+Hello World
+46. Is a definition command like CREATE supported in PL/SQL?
+---------------------------------------------------------------
+PL/SQL does not directly support DDL commands like:
+CREATE
+ALTER
+DROP
+But these commands can be executed using dynamic SQL.
+Example
+EXECUTE IMMEDIATE 'CREATE TABLE test(id NUMBER)';
+47. Explain a view.
+-------------------
+A View is a virtual table created from one or more tables using a SQL query.
+It does not store data itself but displays data from base tables.
+Syntax
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name;
+Example
+CREATE VIEW emp_view AS
+SELECT emp_id, emp_name
+FROM employees;
+48. What are the basic parts of triggers?
+-----------------------------------------
+A trigger has three basic parts.
+1. Trigger Statement
+Defines when the trigger should fire.
+Example
+BEFORE INSERT ON employees
+2. Trigger Restriction
+Defines conditions using WHEN clause.
+Example
+WHEN (NEW.salary > 10000)
+3. Trigger Action
+Contains the PL/SQL code that executes.
+Example
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Trigger executed');
+END;
+49. What are the methods to trace PL/SQL code?
+-------------------------------------------------
+Tracing helps monitor program execution and performance.
+Common tracing tools:
+DBMS_TRACE – Traces program execution
+DBMS_APPLICATION_INFO – Stores application information
+DBMS_SESSION – Controls session settings
+DBMS_MONITOR – Monitors database performance
+50. How do you create nested tables in PL/SQL?
+-----------------------------------------------
+Nested tables are collections used to store multiple values.
+Syntax
+TYPE type_name IS TABLE OF element_type;
+Example
+DECLARE
+   TYPE dept_table IS TABLE OF VARCHAR2(20);
+   departments dept_table := dept_table('Marketing','Development','Sales');
+BEGIN
+   FOR i IN 1..departments.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE('Department: ' || departments(i));
+   END LOOP;
+END;
+/
+Output
+Department: Marketing
+Department: Development
+Department: Sales
