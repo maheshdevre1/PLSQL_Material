@@ -27,6 +27,16 @@
 28. What command will you use to delete a package?
 29. How will you execute a stored procedure?
 30. Explain the IN, OUT and IN OUT parameters.
+31. Differentiate between %ROWTYPE and %TYPE.
+32. Discuss SQLERRM and SQLCODE. What is the importance of PL/SQL?
+33. What are PL/SQL records? Tell types of records.
+34. Explain the BTITLE and TTITLE statements.
+35. What are the valid DateTime values for seconds in PL/SQL?
+36. Explain PL/SQL Delimiters.
+37. What is the use of a UTL_FILE package in PL/SQL?
+38. What is the use of index in PL/SQL?
+39. What does the error ORA-03113 mean?
+40. What is a Join?
 
 1. What are the features of PL/SQL?
 -----------------------------------
