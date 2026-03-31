@@ -1,0 +1,239 @@
+1. Function to Get Employee Salary
+-----------------------------------
+CREATE OR REPLACE FUNCTION get_salary (
+    p_emp_id NUMBER
+)
+RETURN NUMBER
+IS
+    v_salary NUMBER;
+BEGIN
+    SELECT salary INTO v_salary
+    FROM employee
+    WHERE emp_id = p_emp_id;
+
+    RETURN v_salary;
+END;
+/
+
+2. Function to Calculate Annual Salary
+------------------------------------------
+CREATE OR REPLACE FUNCTION annual_salary (
+    p_salary NUMBER
+)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN p_salary * 12;
+END;
+/
+
+
+3. Function to Check Prime Number
+----------------------------------
+CREATE OR REPLACE FUNCTION is_prime (
+    n NUMBER
+)
+RETURN VARCHAR2
+IS
+BEGIN
+    IF n <= 1 THEN
+        RETURN 'NOT PRIME';
+    END IF;
+
+    FOR i IN 2..SQRT(n) LOOP
+        IF MOD(n, i) = 0 THEN
+            RETURN 'NOT PRIME';
+        END IF;
+    END LOOP;
+
+    RETURN 'PRIME';
+END;
+/
+
+4. Function to Get Department Employee Count
+---------------------------------------------
+CREATE OR REPLACE FUNCTION dept_emp_count (
+    p_dept_id NUMBER
+)
+RETURN NUMBER
+IS
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count
+    FROM employee
+    WHERE department_id = p_dept_id;
+
+    RETURN v_count;
+END;
+/
+
+5. Function with Exception Handling
+-------------------------------------
+CREATE OR REPLACE FUNCTION get_employee_name (
+    p_emp_id NUMBER
+)
+RETURN VARCHAR2
+IS
+    v_name VARCHAR2(50);
+BEGIN
+    SELECT name INTO v_name
+    FROM employee
+    WHERE emp_id = p_emp_id;
+
+    RETURN v_name;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'NOT FOUND';
+END;
+/
+
+6. Function to Calculate Bonus Based on Salary
+-------------------------------------------------
+CREATE OR REPLACE FUNCTION calculate_bonus (
+    p_salary NUMBER
+)
+RETURN NUMBER
+IS
+BEGIN
+    IF p_salary > 50000 THEN
+        RETURN p_salary * 0.20;
+    ELSIF p_salary > 30000 THEN
+        RETURN p_salary * 0.10;
+    ELSE
+        RETURN p_salary * 0.05;
+    END IF;
+END;
+/
+
+7. Function Using Cursor
+---------------------------
+CREATE OR REPLACE FUNCTION total_salary
+RETURN NUMBER
+IS
+    CURSOR c IS SELECT salary FROM employee;
+    v_total NUMBER := 0;
+BEGIN
+    FOR rec IN c LOOP
+        v_total := v_total + rec.salary;
+    END LOOP;
+
+    RETURN v_total;
+END;
+/
+
+8. Function to Return Maximum Salary
+---------------------------------------
+CREATE OR REPLACE FUNCTION max_salary
+RETURN NUMBER
+IS
+    v_max NUMBER;
+BEGIN
+    SELECT MAX(salary) INTO v_max FROM employee;
+
+    RETURN v_max;
+END;
+/
+
+9. Function to Format Employee Name
+------------------------------------
+CREATE OR REPLACE FUNCTION format_name (
+    p_name VARCHAR2
+)
+RETURN VARCHAR2
+IS
+BEGIN
+    RETURN INITCAP(p_name);
+END;
+/
+
+10. Function with Default Parameter
+---------------------------------------
+CREATE OR REPLACE FUNCTION calculate_tax (
+    p_salary NUMBER,
+    p_tax_rate NUMBER DEFAULT 10
+)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN p_salary * p_tax_rate / 100;
+END;
+/
+
+
+11. Function Returning SYS_REFCURSOR
+--------------------------------------
+CREATE OR REPLACE FUNCTION get_employees_by_dept (
+    p_dept_id NUMBER
+)
+RETURN SYS_REFCURSOR
+IS
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_cursor FOR
+    SELECT * FROM employee WHERE department_id = p_dept_id;
+
+    RETURN v_cursor;
+END;
+/
+
+
+12. Function Using Dynamic SQL
+---------------------------------
+CREATE OR REPLACE FUNCTION get_table_count (
+    p_table_name VARCHAR2
+)
+RETURN NUMBER
+IS
+    v_count NUMBER;
+    v_sql VARCHAR2(200);
+BEGIN
+    v_sql := 'SELECT COUNT(*) FROM ' || p_table_name;
+
+    EXECUTE IMMEDIATE v_sql INTO v_count;
+
+    RETURN v_count;
+END;
+/
+
+13. Function to Handle NULL Values
+----------------------------------
+CREATE OR REPLACE FUNCTION safe_salary (
+    p_salary NUMBER
+)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN NVL(p_salary, 10000);
+END;
+/
+
+
+14. Function to Check Even or Odd
+---------------------------------
+CREATE OR REPLACE FUNCTION check_even_odd (
+    n NUMBER
+)
+RETURN VARCHAR2
+IS
+BEGIN
+    IF MOD(n, 2) = 0 THEN
+        RETURN 'EVEN';
+    ELSE
+        RETURN 'ODD';
+    END IF;
+END;
+/
+
+
+15. Function Calling Another Function
+---------------------------------------
+CREATE OR REPLACE FUNCTION total_with_bonus (
+    p_salary NUMBER
+)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN p_salary + calculate_bonus(p_salary);
+END;
+/
