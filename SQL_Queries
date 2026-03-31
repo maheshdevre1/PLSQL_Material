@@ -1,1 +1,111 @@
+1. Second Highest Salary
+-------------------------
+SELECT MAX(salary) 
+FROM employee 
+WHERE salary < (SELECT MAX(salary) FROM employee);
 
+2. Nth Highest Salary (Generic)
+---------------------------------
+SELECT salary 
+FROM employee e1
+WHERE N-1 = (
+    SELECT COUNT(DISTINCT salary) 
+    FROM employee e2 
+    WHERE e2.salary > e1.salary
+);
+
+3. Find Duplicate Records
+------------------------
+SELECT name, COUNT(*) 
+FROM employee 
+GROUP BY name 
+HAVING COUNT(*) > 1;
+
+4. Delete Duplicate Records (Keep One)
+----------------------------------------
+DELETE FROM employee
+WHERE id NOT IN (
+    SELECT MIN(id) 
+    FROM employee 
+    GROUP BY name, salary
+);
+
+5. Employees with Highest Salary in Each Department
+---------------------------------------------------
+SELECT *
+FROM employee e
+WHERE salary = (
+    SELECT MAX(salary) 
+    FROM employee 
+    WHERE dept_id = e.dept_id
+);
+
+6. Find Employees Who Joined in Last 30 Days
+---------------------------------------------
+SELECT *
+FROM employee
+WHERE joining_date >= SYSDATE - 30;
+
+Find Employees Without Department
+----------------------------------
+SELECT e.*
+FROM employee e
+LEFT JOIN department d 
+ON e.dept_id = d.id
+WHERE d.id IS NULL;
+
+Find Employees with Same Salary
+--------------------------------
+SELECT *
+FROM employee
+WHERE salary IN (
+    SELECT salary 
+    FROM employee 
+    GROUP BY salary 
+    HAVING COUNT(*) > 1
+);
+
+Find Manager Name for Each Employee
+-----------------------------------
+SELECT e.name AS employee, m.name AS manager
+FROM employee e
+LEFT JOIN employee m 
+ON e.manager_id = m.id;
+
+Find Employees Earning More Than Manager
+------------------------------------------
+SELECT e.name
+FROM employee e
+JOIN employee m 
+ON e.manager_id = m.id
+WHERE e.salary > m.salary;
+
+Count Employees Department-wise
+-----------------------------------
+SELECT dept_id, COUNT(*) 
+FROM employee
+GROUP BY dept_id;
+
+Find Last 3 Records
+--------------------
+SELECT *
+FROM employee
+ORDER BY id DESC
+FETCH FIRST 3 ROWS ONLY;
+
+Find Employees Who Have Same Name & Different IDs
+-------------------------------------------------
+SELECT name
+FROM employee
+GROUP BY name
+HAVING COUNT(DISTINCT id) > 1;
+
+Highest Salary in Each Department
+---------------------------------
+SELECT *
+FROM employee e
+WHERE salary = (
+    SELECT MAX(salary) 
+    FROM employee 
+    WHERE dept_id = e.dept_id
+);
