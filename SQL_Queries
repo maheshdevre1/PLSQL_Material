@@ -1,3 +1,9 @@
+//There are two tables: Employee and Shift. The Employee table has id and name, and the Shift table has employeeId and shift. 
+//I want to find employees who have a morning shift using an SQL query.
+SELECT DISTINCT e.id, e.name
+FROM employee e
+JOIN shift s ON e.id = s.employeeid
+WHERE s.shift = 'morning';
 
 
 //Write an SQL query to get the latest record per group.
