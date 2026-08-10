@@ -1,3 +1,16 @@
+/*
+--Employee-- 
+id, name, email, phone, mgr_id references Employee.id
+Find emails of all managers
+id    name    mgr_id
+*/
+find all the manager email id
+
+SELECT DISTINCT m.email
+FROM Employee e
+INNER JOIN Employee m
+ON e.mgr_id = m.id;
+
 //There are two tables: Employee and Shift. The Employee table has id and name, and the Shift table has employeeId and shift. 
 //I want to find employees who have a morning shift using an SQL query.
 SELECT DISTINCT e.id, e.name
