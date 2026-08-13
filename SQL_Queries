@@ -21,13 +21,17 @@ WHERE s.shift = 'morning';
 
 //Write an SQL query to get the latest record per group.
 ---------------------------------------------------------
-SELECT *
-FROM orders o
-WHERE o.order_date = (
-    SELECT MAX(order_date)
-    FROM orders
-    WHERE customer_id = o.customer_id
-);
+
+emp_id	emp_name	department	joining_date
+1	Rahul	IT	2024-01-10
+2	Amit	IT	2024-05-15
+3	Priya	HR	2024-02-20
+4	Neha	HR	2024-08-01
+
+SELECT department, MAX(joining_date) AS latest_date
+FROM employee
+GROUP BY department;
+
 
 
 
