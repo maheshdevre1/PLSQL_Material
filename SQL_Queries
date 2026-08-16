@@ -1,4 +1,12 @@
-5. Employees with Highest Salary in Each Department
+emp_id	employee_name	dept_id	salary
+1	Alice	101	50000
+2	Bob	101	70000
+3	Charlie	102	60000
+4	David	102	80000
+5	Emma	103	45000
+6	Frank	103	45000
+
+//Employees with Highest Salary in Each Department
 ---------------------------------------------------
 SELECT *
 FROM employee e
