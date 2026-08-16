@@ -32,6 +32,20 @@ SELECT department, MAX(joining_date) AS latest_date
 FROM employee
 GROUP BY department;
 
+-----------------------------------------------
+employees
+employee_id	employee_name	department_id
+1	Alice	101
+2	Bob	102
+3	Charlie	NULL
+4	David	101
+5	Emma	105
+departments
+id	department_name
+101	HR
+102	IT
+103	Finance
+104	Sales
 
 
 
