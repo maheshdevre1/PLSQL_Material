@@ -16,6 +16,19 @@ WHERE salary = (
     WHERE dept_id = e.dept_id
 );
 
+Find Employees with Same Salary
+--------------------------------
+SELECT *
+FROM employee
+WHERE salary IN (
+    SELECT salary 
+    FROM employee 
+    GROUP BY salary 
+    HAVING COUNT(*) > 1
+);
+
+------------------------------------------
+
 /*
 --Employee-- 
 id, name, email, phone, mgr_id references Employee.id
@@ -210,16 +223,7 @@ LEFT JOIN department d
 ON e.dept_id = d.id
 WHERE d.id IS NULL;
 
-Find Employees with Same Salary
---------------------------------
-SELECT *
-FROM employee
-WHERE salary IN (
-    SELECT salary 
-    FROM employee 
-    GROUP BY salary 
-    HAVING COUNT(*) > 1
-);
+
 
 Find Manager Name for Each Employee
 -----------------------------------
@@ -256,15 +260,7 @@ FROM employee
 GROUP BY name
 HAVING COUNT(DISTINCT id) > 1;
 
-Highest Salary in Each Department
----------------------------------
-SELECT *
-FROM employee e
-WHERE salary = (
-    SELECT MAX(salary) 
-    FROM employee 
-    WHERE dept_id = e.dept_id
-);
+
 
 
 -----------------------------------------------------------------------------------
