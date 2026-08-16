@@ -1,3 +1,13 @@
+5. Employees with Highest Salary in Each Department
+---------------------------------------------------
+SELECT *
+FROM employee e
+WHERE salary = (
+    SELECT MAX(salary) 
+    FROM employee 
+    WHERE dept_id = e.dept_id
+);
+
 /*
 --Employee-- 
 id, name, email, phone, mgr_id references Employee.id
@@ -176,15 +186,7 @@ WHERE id NOT IN (
     GROUP BY name, salary
 );
 
-5. Employees with Highest Salary in Each Department
----------------------------------------------------
-SELECT *
-FROM employee e
-WHERE salary = (
-    SELECT MAX(salary) 
-    FROM employee 
-    WHERE dept_id = e.dept_id
-);
+
 
 6. Find Employees Who Joined in Last 30 Days
 ---------------------------------------------
