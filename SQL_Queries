@@ -140,6 +140,11 @@ SELECT MAX(salary)
 FROM employee 
 WHERE salary < (SELECT MAX(salary) FROM employee);
 
+SELECT salary
+FROM employee
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+
 2. Nth Highest Salary (Generic)
 ---------------------------------
 SELECT salary 
