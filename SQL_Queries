@@ -1,3 +1,20 @@
+//Delete duplicate record and keep one
+DELETE e1 from employee e1 JOIN employee e2 ON e1.email = e2.email where e1.emp_id>e2.emp_id;
+
+//Delete all duplicate record
+SELECT *
+FROM employee
+WHERE email IN (
+    SELECT email
+    FROM (
+        SELECT email
+        FROM employee
+        GROUP BY email
+        HAVING COUNT(*) > 1
+    ) AS temp
+);
+
+
 //To retrieve employees whose salary is greater than the average salary of their own department
 SELECT emp_id,
        emp_name,
