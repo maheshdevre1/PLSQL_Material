@@ -2,8 +2,7 @@
 DELETE e1 from employee e1 JOIN employee e2 ON e1.email = e2.email where e1.emp_id>e2.emp_id;
 
 //Delete all duplicate record
-SELECT *
-FROM employee
+DELETE FROM employee
 WHERE email IN (
     SELECT email
     FROM (
@@ -11,7 +10,7 @@ WHERE email IN (
         FROM employee
         GROUP BY email
         HAVING COUNT(*) > 1
-    ) AS temp
+    ) t
 );
 
 
